@@ -57,11 +57,18 @@ var RevealChart = window.RevealChart || (function(){
             comments[j] = comments[j].replace(/<!--/,'');
             comments[j] = comments[j].replace(/-->/,'');
             var config = parseJSON(comments[j]);
+            console.log("comments: " + comments);
+            console.log("config: " + config);
             if ( config ) {
                 if ( config.data ) {
                     mergeRecursive( chartData, config.data);
                 }
                 if ( config.options ) {
+                    if ( config.options.tooltips.callbacks.label && config.options.tooltips.callbacks.label.startsWith("function(") ) {
+                        eval("config.options.tooltips.callbacks.label = " + config.options.tooltips.callbacks.label);
+                        console.log("Hello");
+                        console.log(config.options.tooltips.callbacks.label);
+                    }
                     mergeRecursive( chartOptions, config.options);
                 }
             }
